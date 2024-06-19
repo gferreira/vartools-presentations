@@ -1,0 +1,71 @@
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #000;
+  color: #FFF;
+}
+
+.hljs-tag,
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-strong,
+.hljs-name {
+  color: #FFF;
+}
+
+.hljs-code {
+  color: #FFF;
+}
+
+.hljs-class .hljs-title {
+  color: white;
+}
+
+.hljs-attribute,
+.hljs-symbol,
+.hljs-regexp,
+.hljs-link {
+  color: #FFF;
+}
+
+.hljs-string,
+.hljs-bullet,
+.hljs-subst,
+.hljs-title,
+.hljs-section,
+.hljs-emphasis,
+.hljs-type,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-addition,
+.hljs-variable,
+.hljs-template-tag,
+.hljs-template-variable {
+  color: #FFF;
+}
+
+.hljs-comment,
+.hljs-quote,
+.hljs-deletion,
+.hljs-meta {
+  color: #444;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-doctag,
+.hljs-title,
+.hljs-section,
+.hljs-type,
+.hljs-selector-id {
+  font-weight: bold;
+}
+
+.hljs-ln-n {
+  color: #444;
+}

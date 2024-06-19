@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>parametric avar2 variable font production tools</title>
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/roboto-flex.css">
+    <link rel="stylesheet" href="plugin/highlight/custom.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <section data-markdown>
+          <textarea data-template>
+            # parametric avar2 variable font production tools
+          </textarea>
+        </section>
+
+        <section>
+          <h2>Index</h2>
+          <div class="container">
+            <div class="col" data-markdown>
+              <textarea data-template>
+                - Workflow automation
+                  - measuring
+                  - blending
+                  - building
+                  - validating
+                  - proofing
+              </textarea>
+            </div>
+            <div class="col" data-markdown>
+              <textarea data-template>
+                - Production tools
+                  - RoboFont
+                    - hTools3
+                    - VariableValues
+                    - other
+                  - Fontra
+              </textarea>
+            </div>
+          </div>
+        </section>
+
+        <!-- WORKFLOW AUTOMATION -->
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Workflow automation
+              ### Approach
+              - the main goal is to make fonts, not tools
+              - machines are better at repetition, precision
+              - we still need to check the result with our eyes
+              - production assistants, not artifical intelligence
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Workflow automation
+              ### Tasks
+              1. measuring various design attributes in fonts
+              2. blending user axes from parametric axes
+              3. validating font sources against the default font
+              4. applying actions to multiple sources in batch
+              5. building designspaces, variable fonts and instances
+              6. generating various kinds of proof documents
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## 1. Measuring
+              - measure the distance between two points*
+              - store measurement definitions in a measurements file
+              - visualize current measurements while designing glyphs
+              - set file and font names automatically from measurements
+              - build axes and add sources automatically from names
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## 2. Blending
+              - blend original designspace from parametric sources
+              - collect measurements from original sources
+              - assemble blending data and store it in a blends file
+              - use blends data to add blended axes to designspace
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## 3. Validating
+              - compare sources against the default font
+              - check if glyphs are compatible
+              - check if glyph attributes are equal
+              - apply mark colors to help visualization
+              - available in interactive mode and batch validation
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## 4. Building
+              - build designspace automatically from source data
+              - subclass builder to output different designspaces
+              - build UFO instances
+              - generate variable font for each designspace
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## 5. Proofing
+              ### Sources
+              - visualize full glyph set of all sources
+              - include check results and mark colors
+              - interactive testing in Fontra
+              <br/><br/>
+              ### Fonts
+              - visualize width relationships between weights
+              - compare generated avar2 font to original
+              - interactive testing in the browser and DrawBot
+            </textarea>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Production environments
+              ### RoboFont++
+              main design and production environment  
+              \+ augmented with various extensions and scripts
+              ### Fontra
+              previewing and editing avar2 designspace
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## RoboFont extensions
+              ### hTools3
+              modular toolkit for common font production tasks
+              ### Variable Values
+              various tools for viewing, measuring, editing, validating, proofing designspace sources</p>
+              ### + custom scripts
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## More extensions
+              ### [Group Spacing](#)
+              makes group-based spacing possible in RoboFont
+              ### [Scaling Edit](#)
+              preserve curve tension when moving on-curve points
+              ### [Overlay UFOs](#)
+              display other sources in the background of the Glyph View
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Essential extensions
+              ### [DrawBot](#)
+              creating images with code
+              ### [Mechanic](#)
+              install and upgrade extensions
+            </textarea>
+          </section>
+        </section>
+
+        <!-- HTOOLS3 -->
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## hTools3
+              - my humble font production toolkit since 2005/06 (!!)
+              - hTools2 (RF1) was open source, hTools3 (RF3) is not
+              - hTools3 has around 20 paying users (120€ per license)
+              - hTools3 has not been updated for RF4, but still works
+              - includes user documentation and is well maintained
+              - happy to share these tools with everyone on our team!
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Modular toolkit
+              ### Unix design philosophy
+              - Write programs that do one thing and do it well.
+              - Write programs to work together.
+            </textarea>
+          </section>
+          <section>
+            <h2>hTools3 model (user)</h2>
+            <div class="container">
+              <div class="col" data-markdown>
+                <textarea data-template>
+                  ### Scopes
+                  - glyph
+                  - glyphs
+                  - font
+                  - batch
+                </textarea>
+              </div>
+              <div class="col" data-markdown>
+                <textarea data-template>
+                  ### Actions
+                  various simple tools for specific actions at each scope
+                </textarea>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h2>hTools3 model (developer)</h2>
+            <div class="container">
+              <div class="col" data-markdown>
+                <textarea data-template>
+                  ### Modules
+                  - collections of very specific functions
+                  - can be imported and used by scripts and other tools
+                  - also works outside of RoboFont (pure Python)
+              </textarea>
+              </div>
+              <div class="col" data-markdown>
+                <textarea data-template>
+                  ### Dialogs
+                  - use of object inheritance
+                  - individual dialogs subclass from a base object
+                  - increased consistency and easier to maintain
+                </textarea>
+              </div>
+            </div>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## hTools3 links
+              - [user documentation](http://hipertipo.gitlab.io/htools3-extension/)
+              - [developer documentation](http://hipertipo.gitlab.io/hTools3/)
+              - [zip download](#) (not public)
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## hTools3 usage
+              1. importing default glyphs into a layer of the current source
+              2. flip and copy layer contents, and clear background layers
+              3. copy anchors, widths, margins between layers or fonts
+              4. preview interpolation of the current glyph with another font
+              5. build selected glyphs using a glyph construction file
+              6. create new empty glyphs from selected template glyphs
+            </textarea>
+          </section>
+        </section>
+
+        <!-- VARIABLE VALUES -->
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Variable Values
+              - various tools to assist in the production of variable fonts
+              - developed for and in collaboration with FontBureau
+              - uses some ideas and code from hTools3
+              - open-source RoboFont extension funded by Google
+              - development continues during production of AmstelvarA2
+              - includes basic user documentation and release notes
+              - latest version available from my fork of the project
+              - Google repository not maintained, docs link broken
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Variable Values
+              ### Variable font production tasks
+              - viewing and editing bits of data across multiple sources
+              - editing and previewing kerning across multiple sources
+              - defining and visualizing measurements of design features
+              - checking font and glyph attributes against a default font
+              - importing source glyphs into a temporary font for editing
+              - filling out sparse sources with temporary default glyphs
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Measurements tool
+              - define font-level measurements for various parameters
+              - create glyph-level measurements by linking two points
+              - visualize selected measurements in the Glyph View
+              - interactive visualization of measurements while designing
+              - import and export measurement definitions from external file
+              - use of a custom measurements data format (JSON)
+            </textarea>
+          </section>
+
+          <section>
+            <h2>Measurements format</h2>
+            <h3>Top level structure</h3>
+            <pre>
+              <code class="hljs json" data-trim data-line-numbers>
+              { 
+
+                // font-level measurements
+                "font": {
+                  "XOUC" : { ... },
+                  ...
+                },
+
+                // glyph-level measurements
+                "glyphs": {
+                  "o" : { ... },
+                  ...
+                },
+
+              }
+              </code>
+            </pre>
+          </section>
+          <section>
+            <h2>Measurements format</h2>
+            <h3>Font-level measurements</h3>
+            <pre>
+              <code class="hljs json" data-trim data-line-numbers>
+                "XOUC": {
+                  "direction"   : "x",
+                  "glyph 1"     : "H",
+                  "point 1"     : "2",
+                  "glyph 2"     : "H",
+                  "point 2"     : "11",
+                  "parent"      : "XOPQ",
+                  "description" : "X stem uppercase"
+                },
+              </code>
+            </pre>
+          </section>
+          <section>
+            <h2>Measurements format</h2>
+            <h3>Glyph-level measurements</h3>
+            <pre>
+              <code class="hljs json" data-trim data-line-numbers>
+                "o": {
+                  "0 12": {
+                    "name"      : "XOLC",
+                    "direction" : "x"
+                  },
+                  "18 6": {
+                    "name"      : "XOLC",
+                    "direction" : "x"
+                  },
+                  "21 3": {
+                    "name"      : "YOLC",
+                    "direction" : "y"
+                  },
+                  "9 15": {
+                    "name"      : "YOLC",
+                    "direction" : "y"
+                  },
+                  "12 18": {
+                    "name"      : "XTLC",
+                    "direction" : "x"
+                  },
+                  "9 3": {
+                    "name"      : "YTLC",
+                    "direction" : "y"
+                  },
+                  "-1 0": {
+                    "name"      : "XLCR",
+                    "direction" : "x"
+                  },
+                  "6 99": {
+                    "name"      : "XLCR",
+                    "direction" : "x"
+                  },
+                  "X 3": {
+                    "name"      : "YTOS",
+                    "direction" : "y"
+                  },
+                  "B 9": {
+                    "name"      : "YTOS",
+                    "direction" : "y"
+                  }
+                },
+              </code>
+            </pre>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              ## GlyphValidator
+              - check various glyph attributes against a default font
+              - check for interpolation compatibility and equality
+              - display check result labels in font and glyph windows
+              - hide individual checks to focus on relevant information
+              - update checks automatically when glyph data changes
+              - apply mark colors to different categories of glyphs
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## SourceValidator
+              - check compatibility of multiple selected sources at once
+              - batch tool which prints a report to the output window
+              - useful for quickly finding compatiblity bugs in sources
+              - no visual feedback, compatible does not mean correct
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## GlyphProofer
+              - create a proof of the full glyphset for each selected source
+              - include the same glyph attribute checks as GlyphValidator
+              - use different cell colors for different types of glyphs
+              - save proofs as a single PDF file
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## VarFont Assistant
+              - sort and filter selected designspace sources
+              - view and edit font info values
+              - view and edit kerning values
+              - view font-level measurements
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## VarGlyph Assistant
+              - view glyph attributes in sources
+              - view representation of all contour points in glyph
+              - view glyph-level measurements
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## VarProject
+              - apply various actions to selected sources in a designspace
+            </textarea>
+          </section>
+        </section>
+
+        <!-- PROBLEMS & SOLUTIONS -->
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Problems
+              1. lack of a workspace for our team
+              2. recurring Git conflicts
+              3. status of some tools
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Solutions
+              ### 1. Workspace
+              - create a FontBureau workspace which we can manage
+              - submit pull requests to Google repository regularly
+              - look into automating pull requests upstream
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Solutions
+              ### 2. Conflicts
+              - always validate sources before commit
+              - develop a pre-commit cleanup script
+              - submit larger edits as pull requests
+              - get better at Git and GitHub workflows
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## 3. Status of some tools
+              ### Problems
+              - hTools3 is not open-source
+              - VariableValues is not actively mantained by Google
+              ### Solutions
+              - release hTools4 as open-source software
+              - host all projects under a single roof
+            </textarea>
+          </section>
+        </section>
+
+        <!-- THE END -->
+
+        <section data-markdown>
+          <textarea data-template>
+            ## The End
+            Thank you for your attention!
+
+            Gustavo Ferreira / Hipertipo  
+            19 July 2024
+          </textarea>
+        </section>
+
+      </div>
+    </div>
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      Reveal.initialize({
+        center: false,
+        hash: true,
+        plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+      });
+    </script>
+  </body>
+</html>
