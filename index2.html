@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>expert variable font production tools</title>
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/roboto-flex.css">
+    <link rel="stylesheet" href="plugin/highlight/custom.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <section data-markdown>
+          <textarea data-template>
+            # expert variable font production tools
+            Gustavo Ferreira  
+            13th January 2026
+          </textarea>
+        </section>
+
+        <!-- INDEX -->
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Index
+              0. context
+              1. visualizing change
+              2. measurements
+              3. parametric blending
+              4. glyph-centric editing
+              5. custom libs
+            </textarea>
+          </section>
+        </section>
+
+        <!-- 0. CONTEXT -->
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## 0\. Context
+              <!--
+              - working with FontBureau since 2022
+              - building the first avar2 parametric variable fonts
+              - production of AmstelvarA2 Roman & Italic
+              - development of a new workflow with several custom tools 
+              - generalisation of custom tools for use in other projects
+              -->
+            </textarea>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## xTools4
+              open-source extension for RoboFont 4
+
+              xTools4 source code:  
+              <small>http://github.com/gferreira/xTools4</small>
+              
+              xTools4 documentation:  
+              <small>http://gferreira.github.io/xTools4/</small>
+
+              AmstelvarA2 source:  
+              <small>http://github.com/googlefonts/amstelvar-avar2/</small>
+            </textarea>
+          </section>
+        </section>
+
+        <!-- 1. VISUALIZING CHANGE -->
+
+        <section>
+
+          <section data-markdown>
+            <textarea data-template>
+              ## 1\. Visualizing change
+
+              While working on variable font sources, the designer needs to know, at a glance, what is changing in a source in relation to the default.
+
+              - font-level attributes
+              - glyph-level attributes
+              - point positions
+              - validation groups
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              ## 1\. Visualizing change
+
+              xTools4 uses colors to filter out the noise and focus the designer’s attention at the relevant bits of font source data.
+
+              Two separate color codes used consistently across multiple tools.
+
+              demo:
+              - GlyphValidator
+              - VarGlyphViewer
+              - GlyphProofer
+              - VarGlyphAssistant
+            </textarea>
+          </section>
+
+        </section>
+
+        <!-- 2. MEASUREMENTS -->
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## 2\. Measurements
+              <!--
+              - creating measurements from scratch
+              - example: AmstelvarA2 measurements
+
+              - threshold values
+              - measurement scales
+
+              uses of measurements: (custom code)
+              - set source names from measurements
+              - build parametric desigspace
+              - blend from extracted measurements
+              -->
+            </textarea>
+          </section>
+        </section>
+
+        <!-- 3. BLENDING -->
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## 3\. Parametric blending
+
+              matching a reference font: Amstelvar1
+
+              - separate measurements file for Amstelvar1
+              - extract measurements from Amstelvar1
+              - create AmstelvarA2 blended axes from Amstelvar1 measurements
+
+              demo:
+              - BlendsPreview
+            </textarea>
+          </section>
+        </section>
+
+        <!-- 4. GLYPH-CENTRIC EDITING -->
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## 4\. Glyph-centric editing
+
+              demo:
+              - TempEdit
+              - GlyphMeme
+              - GlyphTuning
+              - BlendsPreview
+
+            </textarea>
+          </section>
+        </section>
+
+        <!-- 5. CUSTOM LIBS -->
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## 5\. Custom libs
+
+              custom designspace libs:  
+              <small>http://gferreira.github.io/xTools4/reference/custom-designspace-libs/</small>
+
+              custom libs in temporary fonts:  
+              <small>http://gferreira.github.io/xTools4/reference/temp-font-libs/</small>
+            </textarea>
+          </section>
+        </section>
+
+        <!-- THE END -->
+
+        <section data-markdown>
+          <textarea data-template>
+            ## The End
+            Thank you for your feedback!
+
+            Gustavo Ferreira / Hipertipo  
+            13 January 2026
+          </textarea>
+        </section>
+
+      </div>
+    </div>
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      Reveal.initialize({
+        center: false,
+        hash: true,
+        plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+      });
+    </script>
+  </body>
+</html>
