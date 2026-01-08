@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="dist/reset.css">
     <link rel="stylesheet" href="dist/reveal.css">
     <link rel="stylesheet" href="dist/theme/roboto-flex.css">
-    <link rel="stylesheet" href="plugin/highlight/zenburn.css">
+    <link rel="stylesheet" href="plugin/highlight/custom.css">
     <style>
       code { font-size-adjust: 0.475; padding: 0 0.1em; }
     </style>
@@ -19,7 +19,7 @@
         <section data-markdown>
           <textarea data-template>
             # expert variable font production tools
-            Gustavo Ferreira @FontBureau  
+            Gustavo Ferreira  
             13th January 2026
           </textarea>
         </section>
@@ -31,7 +31,7 @@
             <textarea data-template>
               ## 0\. Context
               <ul>
-                <li class="fragment">working with David Berlow since 2022</li>
+                <li class="fragment">working with David Berlow / FontBureau since 2022</li>
                 <li class="fragment">building the first avar2 parametric variable fonts</li>
                 <li class="fragment">production of AmstelvarA2 Roman & Italic</li>
                 <li class="fragment">development of a new workflow with several custom tools </li>
@@ -48,18 +48,11 @@
               <p class="fragment">available as an open-source extension for RoboFont 4</p>
 
               <div class="fragment">
-                <p>xTools4 source code:<br/>
-                  <small><a href='http://github.com/gferreira/xTools4'>http://github.com/gferreira/xTools4</a></small>
-                </p>
-                <p>xTools4 documentation:<br/>
-                  <small><a href='http://gferreira.github.io/xTools4'>http://gferreira.github.io/xTools4</a></small>
-                </p>
+                <p>xTools4 source code:<br/><a href='http://github.com/gferreira/xTools4'>http://github.com/gferreira/xTools4</a></p>
+                <p>xTools4 documentation:<br/><a href='http://gferreira.github.io/xTools4'>http://gferreira.github.io/xTools4</a></p>
               </div>
 
-              <p class="fragment">
-                AmstelvarA2 source:<br/>
-                <small><a href="http://github.com/googlefonts/amstelvar-avar2">http://github.com/googlefonts/amstelvar-avar2</a></small>
-              </p>
+              <p class="fragment">AmstelvarA2 source:<br/><a href="http://github.com/googlefonts/amstelvar-avar2">http://github.com/googlefonts/amstelvar-avar2</a></p>
 
             </textarea>
           </section>
@@ -76,7 +69,9 @@
               2. measurements
               3. parametric blending
               4. glyph-centric editing
-              5. custom libs
+              5. tuning the corners
+              6. missing tools
+              7. custom libs
             </textarea>
           </section>
         </section>
@@ -225,33 +220,33 @@
         <!-- 3. BLENDING -->
 
         <section>
+
           <section data-markdown>
             <textarea data-template>
               ## 3\. Parametric blending
 
               <p class='fragment'>combining parametric axes to create a blended designspace</p>
 
-              <p class='fragment'>matching a reference variable font: Amstelvar</p>
+              <p class='fragment'>
+                blending typographic axes from scratch vs.<br/>
+                matching a reference variable font (Amstelvar)
+              </p>
 
               <p class='fragment'>parametric matching:<br/>
                 <ul>
                   <li class='fragment'>create a separate measurements file for Amstelvar</li>
                   <li class='fragment'>extract parametric measurements from Amstelvar</li>
-                  <li class='fragment'>create AmstelvarA2 blended axes from Amstelvar measurements</li>
+                  <li class='fragment'>define AmstelvarA2 blended locations (mappings)<br/>from measurements of Amstelvar styles</li>
                 </ul>
               </p>
 
-              <!--
-              demo:
-              - BlendsPreview
-              -->
             </textarea>
           </section>
 
           <section data-markdown>
             <textarea data-template>
-              blends.json
-              ```json
+              blends.json (measured from Amstelvar)
+              ```language-json"
               "opsz144_wdth50": {
                 "XOUC": 78,
                 "XOLC": 71,
@@ -261,7 +256,7 @@
               }
               ```
 
-              designspace
+              AmstelvarA2 designspace
               ```xml
               <mapping description="opsz144_wdth50">
                 <input>
@@ -275,7 +270,7 @@
                   <dimension name="XTUC" xvalue="168"/>
                   <dimension name="XTUR" xvalue="214"/>
                   ...
-              ```
+                ```
             </textarea>
           </section>
 
@@ -293,41 +288,188 @@
                   </ul>
                 </p>
               </div>
+              <div class='fragment'>
+                <br/>
+                <ul>
+                  <li><code>uharfbuzz</code> is a lot faster, but requires a variable font</li>
+                  <li><code>uharfbuzz</code> adds implied on-curve points to quadratic contours</li>
+                </ul>
+              </div>
             </textarea>
           </section>
-
 
         </section>
 
         <!-- 4. GLYPH-CENTRIC EDITING -->
 
         <section>
+
           <section data-markdown>
             <textarea data-template>
               ## 4\. Glyph-centric editing
 
-              demo:
-              - TempEdit
-              - GlyphMeme
-              - GlyphTuning
-              - BlendsPreview
+              <div class='fragment'>
+                <p>UFO, RoboFont, designspace are font-centric.</p>
+                <p>This is a problem in variable font production workflows, where we often need to edit multiple sources of a single glyph.</p>
+              </div>
+              <p class='fragment'>Opening complete fonts is expensive in terms of application performance (more time to load complete fonts) and cognitive performance (more effort to find and focus on a glyph).</p>
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              the TempEdit approach <a href='http://www.hipertipo.com/en/log/2021-05-07-elementar-tools/#tempedit'>(since 2011)</a>:
+
+              <ul>
+                <li class='fragment'>import a single glyph from multiple UFOs into a temporary font</li>
+                <li class='fragment'>edit the glyphs as usual</li>
+                <li class='fragment'>save the glyphs back to the UFOs from which they came</li>
+              </ul>
+
+              <div class='fragment'>
+                <br/>
+                <p>demo:
+                  <ul>
+                    <li>TempEdit</li>
+                  </ul>
+                </p>
+              </div>
 
             </textarea>
           </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              “glyph meme” (David Berlow)
+              
+              - all the parameters involved in a variable glyph
+
+              <div class='fragment'>
+                <br/>
+                <p>demo:
+                  <ul>
+                    <li>GlyphMeme</li>
+                    <li>BlendsPreview</li>
+                    <li>GlyphValidator</li>
+                    <li>Measurements</li>
+                    <li>VarGlyphViewer</li>
+                  </ul>
+                </p>
+              </div>
+            </textarea>
+          </section>
+
         </section>
 
-        <!-- 5. CUSTOM LIBS -->
+        <!-- 5. TUNING THE CORNERS -->
+
+        <section>
+
+          <section data-markdown>
+            <textarea data-template>
+              ## 5\. Tuning the corners
+
+              <div class='fragment'>
+                <p>a simple and comprehensive model:
+                  <ul>
+                    <li>pure parametric sources</li>
+                    <li>tune blended corners when needed</li>
+                  </ul>
+                </p>
+              </div>
+
+              <p class='fragment'>a separate set of sparse sources with deltas for specific locations</p>
+              <p class='fragment'>a new set of axes for tuning blended corner locations</p>
+              <p class='fragment'>a separate tool to temp edit the tuning sources of a glyph</p>
+
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              demo:
+
+              - GlyphTuning
+              - BlendsPreview
+
+              <p class='fragment'><br/>Blending with parametric sources and corner tuning sources allows us to match the reference font with great precision.</p>
+
+            </textarea>
+          </section>
+
+        </section>
+
+        <!-- 6. MISSING TOOLS -->
 
         <section>
           <section data-markdown>
             <textarea data-template>
-              ## 5\. Custom libs
+              ## 6\. Missing tools
 
-              custom designspace libs:  
-              <small>http://gferreira.github.io/xTools4/reference/custom-designspace-libs/</small>
+              <div class='fragment'>
+                <p>glyph-centric editing of glyphs with components</p>
+                <ul>
+                  <li>import base glyphs</li>
+                  <li>edit anchor positions</li>
+                  <li>preview and rebuild construction</li>
+                </ul>
+              </div>
 
-              custom libs in temporary fonts:  
-              <small>http://gferreira.github.io/xTools4/reference/temp-font-libs/</small>
+              <div class='fragment'>
+                <p><code>xProject</code> object for scripting</p>
+                <ul>
+                  <li>define paths to various files</li>
+                  <li>set source names from measurements</li>
+                  <li>build parametric and blended designspace</li>
+                  <li>etc.</li>
+                </ul>
+              </div>
+
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              small improvements (coming as soon as possible)
+
+              - global permill option in Measurements tool
+              - drag to reorder font measurements in Measurements tool
+              - support for sparse sources in VarFontAssistant, VarGlyphAssistant
+              - new points tab in VarGlyphAssistant
+              - ...
+            </textarea>
+          </section>
+
+        </section>
+
+        <!-- 7. CUSTOM LIBS -->
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## 7\. Custom libs
+
+              <div class='fragment'>
+                <p><a href='http://gferreira.github.io/xTools4/reference/custom-designspace-libs/'>custom designspace libs</a>:
+                  <ul>
+                    <li><code>com.xTools4.xProject.measurementsPath</code></li>
+                    <li><code>com.xTools4.xProject.glyphConstructionsPath</code></li>
+                    <li><code>com.xTools4.xProject.smartSetsPath</code></li>
+                  </ul>
+                </p>
+              </div>
+
+              <div class='fragment'>
+                <p><a href='http://gferreira.github.io/xTools4/reference/temp-font-libs/'>custom libs in temporary fonts</a>:
+                  <ul>
+                    <li><code>com.xTools4.tempEdit.mode</code> (font)<</li>
+                    <li><code>com.xTools4.tempEdit.glyphSetPath</code> (glyph)<</li>
+                    <li><code>com.xTools4.measurements.default</code> (glyph)<</li>
+                    <li><code>com.xTools4.measurements.font</code> (glyph)<</li>
+                  </ul>
+                </p>
+              </div>
+
             </textarea>
           </section>
         </section>
@@ -336,11 +478,12 @@
 
         <section data-markdown>
           <textarea data-template>
-            ## The End
-            Thanks for your feedback!
+            ## The End (for now)
 
-            Gustavo Ferreira / Hipertipo  
-            13 January 2026
+            Thanks in advance for your feedback!
+
+            [gustavo@hipertipo.com](mailto:gustavo@hipertipo.com)
+
           </textarea>
         </section>
 
