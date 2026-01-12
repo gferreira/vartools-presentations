@@ -61,7 +61,7 @@
             <textarea data-template>
               slides from a pre-xTools4 presentation:
 
-              [parametric avar2 variable font production tools](index1.html)  
+              [parametric avar2 variable font production tools](20240719_vartools.html)  
               19th July 2024
             </textarea>
           </section>
@@ -95,10 +95,10 @@
 
               <p class="fragment">While working on variable font sources, the designer needs to know, at a glance, what is changing in a source in relation to the default.</p>
 
-              <ul class="fragment">
-                <li>font-level attributes</li>
-                <li>glyph-level attributes</li>
-                <li>point positions</li>
+              <ul>
+                <li class="fragment">glyph-level attributes</li>
+                <li class="fragment">point positions</li>
+                <li class="fragment">font-level attributes</li>
               </ul>
 
               <div class="fragment">
@@ -124,10 +124,11 @@
               <div class='fragment'>
                 <p>demo:</p>
                 <ul>
-                  <li>GlyphValidator</li>
-                  <li>VarGlyphViewer</li>
-                  <li>GlyphProofer</li>
-                  <li>VarGlyphAssistant</li>
+                  <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/glyph-validator/'>GlyphValidator</a></li>
+                  <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/varglyph-viewer/'>VarGlyphViewer</a></li>
+                  <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/glyphset-proofer/'>GlyphProofer</a></li>
+                  <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/varglyph-assistant/'>VarGlyphAssistant</a></li>
+                  <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/varfont-assistant/'>VarFontAssistant</a></li>
                 </ul>
               </div>
 
@@ -143,7 +144,7 @@
             <textarea data-template>
               ## 2\. Measurements
 
-              <p class='fragment'>previously: <a href='http://github.com/FontBureau/Parama-roundup'>ParamaRoundup</a></p>
+              <p class='fragment'>successor of <a href='http://github.com/FontBureau/Parama-roundup'>ParamaRoundup</a></p>
 
               <br/>
               <p class='fragment'>demo:</p>
@@ -286,7 +287,7 @@
           <section data-markdown>
             <textarea data-template>
               demo:
-              - BlendsPreview
+              - [BlendsPreview](http://gferreira.github.io/xTools4/reference/tools/variable/blends-preview/)
 
               <div class='fragment'>
                 <br/>
@@ -357,11 +358,13 @@
                 <br/>
                 <p>demo:
                   <ul>
-                    <li>GlyphMeme</li>
+                    <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/glyph-meme/'>GlyphMeme</a></li>
+                    <!--
                     <li>BlendsPreview</li>
-                    <li>GlyphValidator</li>
+                    <li>>GlyphValidator</li>
                     <li>Measurements</li>
                     <li>VarGlyphViewer</li>
+                    -->
                   </ul>
                 </p>
               </div>
@@ -373,7 +376,7 @@
               key points about the parametric method:
 
               - resist the temptation to tune corners  
-                by making parametric sources impure!
+                by making parametric sources impure
               
               - parametric sources alone are not enough  
                 to match all blended corners
@@ -401,7 +404,7 @@
 
               <p class='fragment'>a separate set of sparse sources with deltas for specific locations</p>
               <p class='fragment'>a new set of axes for tuning blended corner locations</p>
-              <p class='fragment'>a separate tool to temp edit the tuning sources of a glyph</p>
+              <p class='fragment'>a separate tool to temp-edit the tuning sources of a glyph</p>
 
             </textarea>
           </section>
@@ -410,8 +413,7 @@
             <textarea data-template>
               demo:
 
-              - GlyphTuning
-              - BlendsPreview
+              - [GlyphTuning](http://gferreira.github.io/xTools4/reference/tools/variable/glyph-tuning/)
 
               <p class='fragment'><br/>Blending with parametric sources and corner tuning sources allows us to match the reference font with great precision.</p>
 
@@ -437,22 +439,24 @@
               ## 6\. Missing tools
 
               <div class='fragment'>
-                <p>glyph-centric editing of glyphs with components</p>
-                <ul>
-                  <li>import base glyphs</li>
-                  <li>edit anchor positions</li>
-                  <li>preview and rebuild construction</li>
-                </ul>
+                <p>glyph-centric editing of glyphs with components
+                  <ul>
+                    <li>import base glyphs</li>
+                    <li>edit anchor positions</li>
+                    <li>preview and rebuild construction</li>
+                  </ul>
+                </p>
               </div>
 
               <div class='fragment'>
-                <p><code>xProject</code> object for scripting</p>
-                <ul>
-                  <li>define paths to various files</li>
-                  <li>set source names from measurements</li>
-                  <li>build parametric and blended designspace</li>
-                  <li>etc.</li>
-                </ul>
+                <p><code>xProject</code> object for scripting
+                  <ul>
+                    <li>define paths to various files</li>
+                    <li>set source names from measurements</li>
+                    <li>build parametric and blended designspace</li>
+                    <li>etc.</li>
+                  </ul>
+                </p>
               </div>
 
             </textarea>
@@ -460,11 +464,11 @@
 
           <section data-markdown>
             <textarea data-template>
-              small improvements (coming as soon as possible)
+              small improvements (coming soon)
 
               - global permill option in Measurements tool
               - drag to reorder font measurements in Measurements tool
-              - support for sparse sources in VarFontAssistant, VarGlyphAssistant
+              - support for sparse sources in multiple tools
               - reimplement points tab in VarGlyphAssistant
               - ...
             
@@ -472,6 +476,36 @@
                 <br/>
                 <a href='http://gferreira.github.io/xTools4/changelog'>xTools4 changelog</a>
               </p>
+
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              AmstelvarA2
+
+              - separate axes for the “little things”
+              - parent parametric axes
+              - kerning
+              - fences?
+              - ...
+
+              <div class='fragment'>
+                <p>RobotoDelta
+                  <ul>
+                    <li>make source files compatible with xTools4</li>
+                  </ul>
+                </p>
+              </div>
+
+              <div class='fragment'>
+                <p>SomethingElse
+                  <ul>
+                    <li>project log</li>
+                    <li><a href='http://gferreira.github.io/xTools4/tutorials/'>tutorials</a></li>
+                  </ul>
+                </p>
+              </div>
 
             </textarea>
           </section>
@@ -516,9 +550,18 @@
           <textarea data-template>
             ## The End (for now)
 
-            Thanks in advance for your feedback!
+            <p class='fragment'>This is a team effort.</p>
 
-            [gustavo@hipertipo.com](mailto:gustavo@hipertipo.com)
+            <div class='fragment'>
+              <p>Thanks for your feedback!</p>
+              <p><a href='mailto:gustavo@hipertipo.com'>gustavo@hipertipo.com</a></p>
+            </div>
+
+            <br/>
+            <p class='fragment'>
+              link to this presentation<br/>
+              <small><a href='http://gferreira.github.io/vartools-presentations/20260113_xtools.html'>http://gferreira.github.io/vartools-presentations/20260113_xtools.html</a></small>
+            </p>
 
           </textarea>
         </section>
@@ -533,7 +576,8 @@
       Reveal.initialize({
         center: false,
         hash: true,
-        plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+        slideNumber: 'c/t',
+        plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ],
       });
     </script>
   </body>
