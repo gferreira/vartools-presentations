@@ -20,7 +20,7 @@
           <textarea data-template>
             # expert variable font production tools
             Gustavo Ferreira  
-            13th January 2026
+            13th January 2026 / 11th February 2026
           </textarea>
         </section>
 
@@ -126,9 +126,9 @@
                 <ul>
                   <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/glyph-validator/'>GlyphValidator</a></li>
                   <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/varglyph-viewer/'>VarGlyphViewer</a></li>
-                  <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/glyphset-proofer/'>GlyphProofer</a></li>
                   <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/varglyph-assistant/'>VarGlyphAssistant</a></li>
                   <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/varfont-assistant/'>VarFontAssistant</a></li>
+                  <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/glyphset-proofer/'>GlyphProofer</a></li>
                 </ul>
               </div>
 
@@ -168,6 +168,7 @@
               <ul>
                 <li>all glyphs with contours</li>
                 <li>interactive preview</li>
+                <li>relationship with font and default values</li>
               </ul>
               <br/>
               <p>format & concepts:</p>
@@ -183,7 +184,7 @@
               how measurements are used:
               - setting source names from measurements
               - building parametric designspace
-              - accessing glyph sources for editing (GlyphMeme)
+              - selective editing of glyph sources (GlyphMeme)
               - blending locations based on extracted measurements
               - controlling consistency in parametric sources
               - ...
@@ -360,27 +361,21 @@
                 <p>demo:
                   <ul>
                     <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/glyph-meme/'>GlyphMeme</a></li>
-                    <!--
-                    <li>BlendsPreview</li>
-                    <li>>GlyphValidator</li>
-                    <li>Measurements</li>
-                    <li>VarGlyphViewer</li>
-                    -->
                   </ul>
                 </p>
               </div>
-            </textarea>
-          </section>
 
-          <section data-markdown>
-            <textarea data-template>
-              key points about the parametric method:
-
-              - resist the temptation to tune corners  
-                by making parametric sources impure
-              
-              - parametric sources alone are not enough  
-                to match all blended corners
+              <div class='fragment'>
+                <p>compatible with:
+                  <ul>
+                    <li>BlendsPreview</li>
+                    <li>GlyphValidator</li>
+                    <li>VarGlyphViewer</li>
+                    <li>Measurements</li>
+                    <li>import glyphs into layer</li>
+                  </ul>
+                </p>
+              </div>
             </textarea>
           </section>
 
@@ -394,29 +389,51 @@
             <textarea data-template>
               ## 5\. Tuning corners
 
+              <p class='fragment'>key points about the parametric method (from experience):
+                <ul>
+                  <li class='fragment'>resist the temptation to tune corners<br/>
+                      by making parametric sources impure
+                  </li>
+                  <li class='fragment'>parametric sources alone are not enough<br/>
+                    to match all blended corners
+                  </li>
+                </ul>
+              </p>
+              <p class='fragment'>formulation of a simple and comprehensive model:
+                <ul>
+                  <li class='fragment'>pure parametric sources</li>
+                  <li class='fragment'>tune blended corners when needed</li>
+                </ul>
+              </p>
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              <p>introduction of a tuning mechanism:
+                <ul>
+                  <li class='fragment'>a set of sparse sources with deltas for specific locations</li>
+                  <li class='fragment'>a new set of hidden axes for tuning blended corner locations*</li>
+                  <li class='fragment'>a separate tool to temp-edit the tuning sources of a glyph</li>
+                </ul>
+              </p>
+
               <div class='fragment'>
-                <p>a simple and comprehensive model:
+                <br/>
+                <p>demo:
                   <ul>
-                    <li>pure parametric sources</li>
-                    <li>tune blended corners when needed</li>
+                    <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/glyph-tuning/'>GlyphTuning</a></li>
                   </ul>
                 </p>
               </div>
-
-              <p class='fragment'>a separate set of sparse sources with deltas for specific locations</p>
-              <p class='fragment'>a new set of hidden axes for tuning blended corner locations</p>
-              <p class='fragment'>a separate tool to temp-edit the tuning sources of a glyph</p>
 
             </textarea>
           </section>
 
           <section data-markdown>
             <textarea data-template>
-              demo:
 
-              - [GlyphTuning](http://gferreira.github.io/xTools4/reference/tools/variable/glyph-tuning/)
-
-              <p class='fragment'><br/>Blending with parametric sources and corner tuning sources allows us to match the reference font with great precision.</p>
+              Blending with parametric sources and corner tuning sources<br/>allows us to match the reference font with great precision.
 
               <div class='fragment'>
                 <br/>
@@ -471,6 +488,7 @@
               - drag to reorder font measurements in Measurements tool
               - support for sparse sources in multiple tools
               - reimplement points tab in VarGlyphAssistant
+              - ParametricGlyphProofer
               - ...
             
               <p class='fragment'>
