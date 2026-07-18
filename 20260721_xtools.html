@@ -6,8 +6,8 @@
     <title>expert variable font production tools</title>
     <link rel="stylesheet" href="dist/reset.css">
     <link rel="stylesheet" href="dist/reveal.css">
-    <link rel="stylesheet" href="dist/theme/white.css">
-    <link rel="stylesheet" href="dist/theme/roboto-flex_white.css">
+    <!-- <link rel="stylesheet" href="dist/theme/white.css"> -->
+    <link rel="stylesheet" href="dist/theme/roboto-flex.css">
     <link rel="stylesheet" href="plugin/highlight/custom.css">
     <style>
       code { font-size-adjust: 0.475; padding: 0 0.1em; }
@@ -21,7 +21,7 @@
           <textarea data-template>
             # expert variable font production tools
             Gustavo Ferreira  
-            13th January 2026 / 11th February 2026
+            13 Jan 2026 · 11 Feb 2026 · 17 Jul 2026
           </textarea>
         </section>
 
@@ -32,12 +32,19 @@
             <textarea data-template>
               ## 0\. Context
               <ul>
-                <li class="fragment">working with David Berlow / FontBureau since 2022</li>
-                <li class="fragment">building the first avar2 parametric variable fonts</li>
-                <li class="fragment">production of AmstelvarA2 Roman & Italic</li>
+                <li class="fragment">working with David Berlow / Font Bureau since 2022</li>
+                <li class="fragment">building the first <a href='https://github.com/harfbuzz/boring-expansion-spec/blob/main/avar2.md'>avar2</a> <a href='https://variationsguide.typenetwork.com/'>parametric variable fonts</a></li>
+                <li class="fragment">production of <a href="http://github.com/googlefonts/amstelvar-avar2">AmstelvarA2 Roman & Italic</a></li>
                 <li class="fragment">development of a new workflow with several custom tools </li>
                 <li class="fragment">generalisation of custom tools for use in other projects</li>
               </ul>
+              <div class='fragment'>
+                <br/>
+                <p>demo:</p>
+                <ul>
+                  <li>AmstelvarA2 (Fontra)</li>
+                </ul>
+              </div>
             </textarea>
           </section>
 
@@ -49,11 +56,14 @@
               <p class="fragment">available as an open-source extension for RoboFont 4</p>
 
               <div class="fragment">
-                <p>xTools4 source code:<br/><a href='http://github.com/gferreira/xTools4'>http://github.com/gferreira/xTools4</a></p>
-                <p>xTools4 documentation:<br/><a href='http://gferreira.github.io/xTools4'>http://gferreira.github.io/xTools4</a></p>
+                <p>
+                  <a href='http://github.com/gferreira/xTools4'>xTools4 source code</a><br/>
+                  <a href='http://gferreira.github.io/xTools4'>xTools4 documentation</a>
+                </p>
               </div>
 
-              <p class="fragment">AmstelvarA2 source:<br/><a href="http://github.com/googlefonts/amstelvar-avar2">http://github.com/googlefonts/amstelvar-avar2</a></p>
+              <p class="fragment">started as a fusion of hTools3 and variableValues extensions,<br/>updated to the <a href="https://forum.robofont.com/topic/804/robofont-four">new RoboFont 4 APIs</a> (July 2024)</p>
+              <p class="fragment">since then, several new tools for the production of parametric variable fonts have been added</p>
 
             </textarea>
           </section>
@@ -79,9 +89,10 @@
               2. [measurements](#measurements)
               3. [parametric blending](#parametric-blending)
               4. [glyph-centric editing](#glyph-centric-editing)
-              5. [tuning corners](#tuning-corners)
-              6. [missing tools](#missing-tools)
-              7. [custom libs](#custom-libs)
+              5. [tuning blends](#tuning-blends)
+              6. [custom libs](#custom-libs)
+              7. [project controller](#project-controller)
+
             </textarea>
           </section>
         </section>
@@ -93,23 +104,59 @@
           <section data-markdown>
             <textarea data-template>
               ## 1\. Visualizing change
-
               <p class="fragment">While working on variable font sources, the designer needs to know, at a glance, what is changing in a source in relation to the default.</p>
+              <p class="fragment">“working on these fonts gives me a headache”</p>
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              ### A\. Comparing attributes
 
               <ul>
                 <li class="fragment">glyph-level attributes</li>
-                <li class="fragment">point positions</li>
+                  <ul class="fragment">
+                    <li>width</li>
+                    <li>margins</li>
+                    <li>points</li>
+                    <li>components</li>
+                    <li>anchors</li>
+                    <li>unicode</li>
+                  </ul>
+                <li class="fragment">point positions (deltas)</li>
                 <li class="fragment">font-level attributes</li>
+                  <ul class="fragment">
+                    <li>font info</li>
+                    <li>kerning</li>
+                  </ul>
               </ul>
 
-              <div class="fragment">
-                <br/>
-                <ul>
-                  <li>equal to default / different from default</li>
-                  <li>contours only / components only</li>
-                  <li>errors: mixed contours & components, nested components</li>
-                </ul>
-              </div>
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              ### B\. Validation categories
+
+              <table>
+                <tr>
+                  <td></td>
+                  <td><em>equal to default</em></td>
+                  <td><em>different from default</em></td>
+                </tr>
+                <tr>
+                  <td><em>contours only</em></td>
+                  <td>equal to default<br/>contours only</td>
+                  <td>different from default<br/>contours only</td>
+                </tr>
+                <tr>
+                  <td><em>components only</em></td>
+                  <td>equal to default<br/>components only</td>
+                  <td>different from default<br/>components only</td>
+                </tr>
+              </table>
+
+              <p class="fragment">errors: mixed contours & components, nested components</p>
 
             </textarea>
           </section>
@@ -117,22 +164,26 @@
           <section data-markdown>
             <textarea data-template>
               xTools4 uses colors to filter out the noise and focus the designer’s attention at the <span class='fragment highlight-current-red'>relevant</span> bits of font source data.
-
               <div class='fragment'>
-                <p>There are two separate color codes which are used consistently across multiple tools.</p>
-              </div>
-
-              <div class='fragment'>
-                <p>demo:</p>
-                <ul>
-                  <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/glyph-validator/'>GlyphValidator</a></li>
-                  <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/varglyph-viewer/'>VarGlyphViewer</a></li>
-                  <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/varglyph-assistant/'>VarGlyphAssistant</a></li>
-                  <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/varfont-assistant/'>VarFontAssistant</a></li>
-                  <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/glyphset-proofer/'>GlyphProofer</a></li>
+                <p>There are <a href='http://gferreira.github.io/xTools4/reference/color-codes/'>two separate color codes</a> which are used consistently across multiple tools.</p>
+                <ul class='fragment'>
+                  <li>Check colors (comparing attributes)</li>
+                  <li>Validation colors (validation categories)</li>
                 </ul>
               </div>
+            </textarea>
+          </section>
 
+          <section data-markdown>
+            <textarea data-template>
+              <p>demo:</p>
+              <ul>
+                <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/glyph-validator/'>GlyphValidator</a></li>
+                <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/varglyph-viewer/'>VarGlyphViewer</a></li>
+                <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/varglyph-assistant/'>VarGlyphAssistant</a></li>
+                <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/varfont-assistant/'>VarFontAssistant</a></li>
+                <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/glyphset-proofer/'>GlyphProofer</a></li>
+              </ul>
             </textarea>
           </section>
 
@@ -159,24 +210,28 @@
 
           <section data-markdown>
             <textarea data-template>
-              <p>font-level measurements:</p>
-              <ul>
-                <li>control glyphs</li>
-                <li>parent/child measurements</li>
-              </ul>
-              <br/>
-              <p>glyph-level measurements:</p>
-              <ul>
-                <li>all glyphs with contours</li>
-                <li>interactive preview</li>
-                <li>relationship with font and default values</li>
-              </ul>
-              <br/>
-              <p>format & concepts:</p>
-              <ul>
-                <li><a href='https://gferreira.github.io/xTools4/reference/measurements-format/'>measurements format</a></li>
-                <li><a href='https://gferreira.github.io/xTools4/reference/measurement-scales-thresholds/'>measurement scales & thresholds</a></li>
-              </ul>
+              <div>
+                <p>font-level measurements:</p>
+                <ul>
+                  <li>control glyphs</li>
+                  <li>parent/child measurements</li>
+                </ul>
+              </div>
+              <div class='fragment'>
+                <p>glyph-level measurements:</p>
+                <ul>
+                  <li>all glyphs with contours</li>
+                  <li>interactive preview</li>
+                  <li>relationship with font and default values</li>
+                </ul>
+              </div>
+              <div class='fragment'>
+                <p>format & concepts:</p>
+                <ul>
+                  <li><a href='https://gferreira.github.io/xTools4/reference/measurements-format/'>measurements format</a></li>
+                  <li><a href='https://gferreira.github.io/xTools4/reference/measurement-scales-thresholds/'>measurement scales & thresholds</a></li>
+                </ul>
+              </div>
             </textarea>
           </section>
 
@@ -194,7 +249,7 @@
 
           <section data-markdown>
             <textarea data-template>
-              scripting examples:
+              ### Scripting examples
 
               <pre class='fragment'><code data-trim class="language-python">
               from xTools4.modules.measurements import FontMeasurements
@@ -237,27 +292,31 @@
             <textarea data-template>
               ## 3\. Parametric blending
 
-              <p class='fragment'>combining parametric axes to create a blended designspace</p>
-
               <p class='fragment'>
-                blending typographic axes from scratch vs.<br/>
-                matching a reference variable font (Amstelvar)
+                combining parametric axes to create a blended designspace<br/>
+                with optical size, weight, and width axes
               </p>
-
-              <p class='fragment'>parametric matching:<br/>
-                <ul>
-                  <li class='fragment'>create a separate measurements file for Amstelvar</li>
-                  <li class='fragment'>extract parametric measurements from Amstelvar</li>
-                  <li class='fragment'>define AmstelvarA2 blended locations (mappings)<br/>from measurements of Amstelvar styles</li>
-                </ul>
+              <p class='fragment'>
+                A. blending typographic axes from scratch<br/>
+                B. matching a reference variable font (Amstelvar)
               </p>
-
             </textarea>
           </section>
 
           <section data-markdown>
             <textarea data-template>
-              blends.json (measured from Amstelvar)
+              ### Parametric matching
+              <ul>
+                <li class='fragment'>create a separate measurements file for Amstelvar*</li>
+                <li class='fragment'>extract parametric measurements from Amstelvar</li>
+                <li class='fragment'>define AmstelvarA2 blended locations (mappings)<br/>from measurements of Amstelvar styles</li>
+              </ul>
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              blends.json
               ```language-json"
               "opsz144_wdth50": {
                 "XOUC": 78,
@@ -269,7 +328,7 @@
               }
               ```
 
-              AmstelvarA2 designspace
+              designspace
               ```xml
               <mapping description="opsz144_wdth50">
                 <input>
@@ -331,7 +390,9 @@
 
           <section data-markdown>
             <textarea data-template>
-              the TempEdit approach <a href='http://www.hipertipo.com/en/log/2021-05-07-elementar-tools/#tempedit'>(since 2011)</a>:
+              ### TempEdit
+
+              <a href='http://www.hipertipo.com/en/log/2021-05-07-elementar-tools/#tempedit'>since 2011</a>
 
               <ul>
                 <li class='fragment'>import a single glyph from multiple UFOs into a temporary font</li>
@@ -353,59 +414,62 @@
 
           <section data-markdown>
             <textarea data-template>
-              “glyph meme” (David Berlow)
+              ### “Glyph Meme” (David Berlow)
               
-              - all the parameters involved in a variable glyph
+              all parameters involved in a variable glyph
+
+              <p class='fragment'>possible by combining TempEdit and Measurement tools</p>
+
+              <p class='fragment'>imports all parametric sources of a glyph into a temporary font</p>
 
               <div class='fragment'>
                 <br/>
                 <p>demo:
                   <ul>
                     <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/glyph-meme/'>GlyphMeme</a></li>
-                  </ul>
-                </p>
-              </div>
-
-              <div class='fragment'>
-                <p>compatible with:
-                  <ul>
-                    <li>BlendsPreview</li>
-                    <li>GlyphValidator</li>
-                    <li>VarGlyphViewer</li>
-                    <li>Measurements</li>
-                    <li>import glyphs into layer</li>
+                    <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/glyphmeme-proofer/'>GlyphMeme Proofer</a></li>
                   </ul>
                 </p>
               </div>
             </textarea>
           </section>
 
+          <section data-markdown>
+            <textarea data-template>
+              tools compatible with temporary fonts:
+
+              - BlendsPreview
+              - GlyphValidator
+              - VarGlyphViewer
+              - Measurements
+              - [import glyphs into layer](http://gferreira.github.io/xTools4/reference/tools/glyphs/layers/import/)
+            </textarea>
+          </section>
+
         </section>
 
-        <!-- 5. TUNING CORNERS -->
+        <!-- 5. TUNING BLENDS -->
 
-        <section id='tuning-corners'>
+        <section id='tuning-blends'>
 
           <section data-markdown>
             <textarea data-template>
-              ## 5\. Tuning corners
+              ## 5\. Tuning blends
 
-              <p class='fragment'>key points about the parametric method (from experience):
+              <p class='fragment'>lessons from experience with the parametric method:
                 <ul>
-                  <li class='fragment'>resist the temptation to tune corners<br/>
-                      by making parametric sources impure
-                  </li>
-                  <li class='fragment'>parametric sources alone are not enough<br/>
-                    to match all blended corners
-                  </li>
+                  <li class='fragment'>don’t try to tune corners by making parametric sources impure</li>
+                  <li class='fragment'>parametric axes alone are not enough to blend all corners</li>
                 </ul>
               </p>
+              <br/>
               <p class='fragment'>formulation of a simple and comprehensive model:
                 <ul>
                   <li class='fragment'>pure parametric sources</li>
-                  <li class='fragment'>tune blended corners when needed</li>
+                  <li class='fragment'>tuning sources for blended styles</li>
                 </ul>
               </p>
+
             </textarea>
           </section>
 
@@ -413,138 +477,59 @@
             <textarea data-template>
               <p>introduction of a tuning mechanism:
                 <ul>
-                  <li class='fragment'>a set of sparse sources with deltas for specific locations</li>
-                  <li class='fragment'>a new set of hidden axes for tuning blended corner locations*</li>
+                  <li class='fragment'>a new set of sources with deltas for blended locations</li>
+                  <li class='fragment'>a new set of hidden axes for tuning blended locations</li>
                   <li class='fragment'>a separate tool to temp-edit the tuning sources of a glyph</li>
+                  <li class='fragment'>[new] automatic calculation of tuning glyphs</li>
                 </ul>
               </p>
 
-              <div class='fragment'>
-                <br/>
-                <p>demo:
-                  <ul>
-                    <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/glyph-tuning/'>GlyphTuning</a></li>
-                  </ul>
-                </p>
-              </div>
+              <p class='fragment'>Blending with parametric sources and tuning sources<br/>allows us to match the reference font with precision.</p>
+
+              <p class='fragment'>[new] Automatic tuning adds absolute precision and allows for parametric and tuning sources to develop simultaneously.</p>
 
             </textarea>
           </section>
 
           <section data-markdown>
             <textarea data-template>
+              ### Automatic tuning
 
-              Blending with parametric sources and corner tuning sources<br/>allows us to match the reference font with great precision.
+              calculate tuning sources (deltas) between<br/>blended instances and reference sources
 
-              <div class='fragment'>
-                <br/>
-                <p>demo:
-                  <ul>
-                    <li>tuning axes</li>
-                  </ul>
-                </p>
-              </div>
+              three kinds of sources:
+              - parametric sources
+              - reference sources
+              - tuning sources
 
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              demo:
+              - Amstelvar A2 tuning axes
+              - [GlyphTuning](http://gferreira.github.io/xTools4/reference/tools/variable/glyph-tuning/)
+              - automatic tuning (proofs)
+              - [BlendsInstancer](http://gferreira.github.io/xTools4/reference/tools/variable/blends-instancer/)
             </textarea>
           </section>
 
         </section>
 
-        <!-- 6. MISSING TOOLS -->
-
-        <section id='missing-tools'>
-          <section data-markdown>
-            <textarea data-template>
-              ## 6\. Missing tools
-
-              <div class='fragment'>
-                <p>glyph-centric editing of glyphs with components
-                  <ul>
-                    <li>import base glyphs</li>
-                    <li>edit anchor positions</li>
-                    <li>preview and rebuild construction</li>
-                  </ul>
-                </p>
-              </div>
-
-              <div class='fragment'>
-                <p><code>xProject</code> object for scripting
-                  <ul>
-                    <li>define paths to various files</li>
-                    <li>set source names from measurements</li>
-                    <li>build parametric and blended designspace</li>
-                    <li>etc.</li>
-                  </ul>
-                </p>
-              </div>
-
-            </textarea>
-          </section>
-
-          <section data-markdown>
-            <textarea data-template>
-              small improvements (coming soon)
-
-              - global permill option in Measurements tool
-              - drag to reorder font measurements in Measurements tool
-              - support for sparse sources in multiple tools
-              - reimplement points tab in VarGlyphAssistant
-              - GlyphMemeProofer
-              - ...
-            
-              <p class='fragment'>
-                <br/>
-                <a href='http://gferreira.github.io/xTools4/changelog'>xTools4 changelog</a>
-              </p>
-
-            </textarea>
-          </section>
-
-          <section data-markdown>
-            <textarea data-template>
-              AmstelvarA2
-
-              - separate axes for the “little things”
-              - parent parametric axes
-              - kerning
-              - fences?
-              - ...
-
-              <div class='fragment'>
-                <p>RobotoDelta
-                  <ul>
-                    <li>make source files compatible with xTools4</li>
-                  </ul>
-                </p>
-              </div>
-
-              <div class='fragment'>
-                <p>A new project
-                  <ul>
-                    <li>project log</li>
-                    <li><a href='http://gferreira.github.io/xTools4/tutorials/'>tutorials</a></li>
-                  </ul>
-                </p>
-              </div>
-
-            </textarea>
-          </section>
-
-        </section>
-
-        <!-- 7. CUSTOM LIBS -->
+        <!-- 6. CUSTOM LIBS -->
 
         <section id='custom-libs'>
           <section data-markdown>
             <textarea data-template>
-              ## 7\. Custom libs
+              ## 6\. Custom libs
 
               <div class='fragment'>
                 <p><a href='http://gferreira.github.io/xTools4/reference/custom-designspace-libs/'>custom designspace libs</a>:
                   <ul>
-                    <li><code>com.xTools4.xProject.measurementsPath</code>*</li>
-                    <li><code>com.xTools4.xProject.glyphConstructionsPath</code>*</li>
-                    <li><code>com.xTools4.xProject.smartSetsPath</code>*</li>
+                    <li><code>com.xTools4.xProject.measurementsPath</code></li>
+                    <li><code>com.xTools4.xProject.glyphConstructionsPath</code></li>
+                    <li><code>com.xTools4.xProject.smartSetsPath</code></li>
                   </ul>
                 </p>
               </div>
@@ -562,6 +547,51 @@
 
             </textarea>
           </section>
+        </section>
+
+
+        <!-- 7. PROJECT CONTROLLER -->
+
+        <section id='project-controller'>
+          <section data-markdown>
+            <textarea data-template>
+              ## 7\. Project controller
+
+              Python object for scripting parametric designspaces
+
+              <ul>
+                <li class='fragment'>measure and automatically name UFO sources</li>
+                <li class='fragment'>automatically build designspace from source files</li>
+                <li class='fragment'>blend typographic styles from parametric axes</li>
+                <li class='fragment'>clean up and normalize UFO sources</li>
+                <li class='fragment'>copy data from the default to all other sources</li>
+                <li class='fragment'>navigate and filter the glyph set</li>
+                <li class='fragment'>build and validate composite glyphs</li>
+                <li class='fragment'>generate different kinds of PDF proofs</li>
+                <li class='fragment'>build variable fonts and instances</li>
+                <li class='fragment'>...and more!</li>
+              </ul>
+
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              documentation:
+              - [Overview of the xProject model](http://gferreira.github.io/xTools4/explanations/xproject-overview/)
+              - [xProject API overview](http://gferreira.github.io/xTools4/reference/xproject/)
+              - [xProject source code](http://github.com/gferreira/xTools4/blob/main/Lib/xTools4/modules/xproject.py)
+              
+              <div class='fragment'>
+                <p>examples:</p>
+                <ul>
+                  <li><a href='http://github.com/gferreira/amstelvar-avar2/blob/main/Tools/controller.py'>AmstelvarA2 Controller</a></li>
+                  <li><a href='http://github.com/gferreira/computer-modern-avar2/blob/main/Tools/controller.py'>Computer Modern avar2 Controller</a></li>
+                </ul>
+              </div>
+            </textarea>
+          </section>
+
         </section>
 
         <!-- THE END -->

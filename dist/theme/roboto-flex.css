@@ -319,10 +319,21 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   transition: color 0.15s ease;
 }
 
+.reveal a[href]:not(:where(
+  /* exclude hash only links */
+  [href^="#"],
+  /* exclude javascript only links */
+  [href^="javascript:" i],  
+  /* exclude relative but not double slash only links */
+  [href^="/"]:not([href^="//"]),
+)) {
+  border-bottom: dotted #333 2px;
+}
+
 .reveal a:hover {
   color: var(--r-link-color-hover);
   text-shadow: none;
-  border: none;
+  /*border: none;*/
 }
 
 .reveal .roll span:after {

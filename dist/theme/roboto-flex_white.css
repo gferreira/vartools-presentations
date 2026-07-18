@@ -42,7 +42,7 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   --r-link-color: #000;
   --r-link-color-dark: #F00;
   --r-link-color-hover: #999;
-  --r-selection-background-color: rgba(0, 0, 0, 0.99);
+  --r-selection-background-color: rgba(255, 255, 0, 0.99);
   --r-selection-color: #000;
   --r-overlay-element-bg-color: 0, 0, 0;
   --r-overlay-element-fg-color: 240, 240, 240;
