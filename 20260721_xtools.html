@@ -89,9 +89,10 @@
               2. [measurements](#measurements)
               3. [parametric blending](#parametric-blending)
               4. [glyph-centric editing](#glyph-centric-editing)
-              5. [tuning blends](#tuning-blends)
-              6. [custom libs](#custom-libs)
-              7. [project controller](#project-controller)
+              5. [building composites](#building-composites)
+              6. [tuning blends](#tuning-blends)
+              7. [custom libs](#custom-libs)
+              8. [project controller](#project-controller)
 
             </textarea>
           </section>
@@ -418,12 +419,18 @@
               
               all parameters involved in a variable glyph
 
-              <p class='fragment'>possible by combining TempEdit and Measurement tools</p>
+              <div class='fragment'>
+                <p>possible by combining existing data and functionality:</p>
+                <ul>
+                  <li>Smart Sets file</li>
+                  <li>Measurements file</li>
+                  <li>TempEdit</li>
+                </ul>
+              </div>
 
-              <p class='fragment'>imports all parametric sources of a glyph into a temporary font</p>
+              <p class='fragment'>import parametric sources of a glyph into a temporary font</p>
 
               <div class='fragment'>
-                <br/>
                 <p>demo:
                   <ul>
                     <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/glyph-meme/'>GlyphMeme</a></li>
@@ -448,17 +455,45 @@
 
         </section>
 
-        <!-- 5. TUNING BLENDS -->
+        <!-- 5. BUILDING COMPOSITES -->
+
+        <section id='building-composites'>
+
+          <section data-markdown>
+            <textarea data-template>
+              ## 5\. Building Composites
+
+              [Glyph Construction](http://github.com/typemytype/GlyphConstruction) file linked to the designspace
+
+              <p class='fragment'>common problem: base glyphs change, composites are not rebuilt</p>
+
+              <p class='fragment'>composite validation:<br/>compare composite glyph to its glyph construction result</p>
+
+              <div class='fragment'>
+                <br/>
+                <p>demo:
+                  <ul>
+                    <li><a href='http://gferreira.github.io/xTools4/reference/tools/glyphs/components/build-constructions/'>build constructions</a></li>
+                  </ul>
+                </p>
+              </div>
+
+            </textarea>
+          </section>
+
+        </section>
+
+        <!-- 6. TUNING BLENDS -->
 
         <section id='tuning-blends'>
 
           <section data-markdown>
             <textarea data-template>
-              ## 5\. Tuning blends
+              ## 6\. Tuning blends
 
               <p class='fragment'>lessons from experience with the parametric method:
                 <ul>
-                  <li class='fragment'>don’t try to tune corners by making parametric sources impure</li>
+                  <li class='fragment'>don’t try to tune by making parametric sources impure</li>
                   <li class='fragment'>parametric axes alone are not enough to blend all corners</li>
                 </ul>
               </p>
@@ -466,7 +501,7 @@
               <p class='fragment'>formulation of a simple and comprehensive model:
                 <ul>
                   <li class='fragment'>pure parametric sources</li>
-                  <li class='fragment'>tuning sources for blended styles</li>
+                  <li class='fragment'>tuning sources for blended styles (corners)</li>
                 </ul>
               </p>
 
@@ -495,34 +530,72 @@
             <textarea data-template>
               ### Automatic tuning
 
-              calculate tuning sources (deltas) between<br/>blended instances and reference sources
+              calculation of tuning sources (deltas) between<br/>blended instances and reference sources
 
-              three kinds of sources:
-              - parametric sources
-              - reference sources
-              - tuning sources
+              <p class='fragment'>three kinds of sources:</p>
+              <ol>
+                <li class='fragment'>parametric sources<br/>changes to one parameter and one parameter only</li>
+                <li class='fragment'>reference sources<br/>hand-edited styles, not inserted in the designspace</li>
+                <li class='fragment'>tuning sources<br/>deltas from parametric blends to reference styles</li>
+              </ol>
 
             </textarea>
           </section>
 
           <section data-markdown>
             <textarea data-template>
-              demo:
-              - Amstelvar A2 tuning axes
-              - [GlyphTuning](http://gferreira.github.io/xTools4/reference/tools/variable/glyph-tuning/)
-              - automatic tuning (proofs)
-              - [BlendsInstancer](http://gferreira.github.io/xTools4/reference/tools/variable/blends-instancer/)
+              tuning composites:
+              - tune base glyphs
+              - tune component positions and glyph width
+
+              <div class='fragment'>
+                <br/>
+                <p>demo:</p>
+                <ul>
+                  <li>Amstelvar A2 tuning axes</li>
+                  <li><a href='http://gferreira.github.io/xTools4/reference/tools/variable/glyph-tuning/'>GlyphTuning</a></li>
+                  <li>automatic tuning (proofs)</li>
+                </ul>
+              </div>
+
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              in new parametric fonts (not based on existing type):  
+              reference sources can be created by instantiating blended styles
+
+              <div class='fragment'>
+                <p>what automated tuning means, in practice:</p>
+                <ul>
+                  <li>use parametric axes to handle 90% of the work</li>
+                  <li>fine-tune blended corners manually (reference sources)</li>
+                  <li>encode the deltas on top of the parametric blends</li>
+                </ul>
+              </div>
+
+              <p class='fragment'>a bridge between parametric and non-parametric typeface design</p>
+
+              <div class='fragment'>
+                <br/>
+                <p>demo:</p>
+                <ul>
+                  <li><a href="http://gferreira.github.io/xTools4/reference/tools/variable/blends-instancer/">BlendsInstancer</a></li>
+                </ul>
+              </div>
+
             </textarea>
           </section>
 
         </section>
 
-        <!-- 6. CUSTOM LIBS -->
+        <!-- 7. CUSTOM LIBS -->
 
         <section id='custom-libs'>
           <section data-markdown>
             <textarea data-template>
-              ## 6\. Custom libs
+              ## 7\. Custom libs
 
               <div class='fragment'>
                 <p><a href='http://gferreira.github.io/xTools4/reference/custom-designspace-libs/'>custom designspace libs</a>:
@@ -549,15 +622,14 @@
           </section>
         </section>
 
-
-        <!-- 7. PROJECT CONTROLLER -->
+        <!-- 8. PROJECT CONTROLLER -->
 
         <section id='project-controller'>
           <section data-markdown>
             <textarea data-template>
-              ## 7\. Project controller
+              ## 8\. Project controller
 
-              Python object for scripting parametric designspaces
+              [Python object](http://github.com/gferreira/xTools4/blob/main/Lib/xTools4/modules/xproject.py) for scripting parametric designspaces
 
               <ul>
                 <li class='fragment'>measure and automatically name UFO sources</li>
@@ -577,12 +649,12 @@
 
           <section data-markdown>
             <textarea data-template>
-              documentation:
+              documentation (work in progress):
               - [Overview of the xProject model](http://gferreira.github.io/xTools4/explanations/xproject-overview/)
               - [xProject API overview](http://gferreira.github.io/xTools4/reference/xproject/)
-              - [xProject source code](http://github.com/gferreira/xTools4/blob/main/Lib/xTools4/modules/xproject.py)
               
               <div class='fragment'>
+                <br/>
                 <p>examples:</p>
                 <ul>
                   <li><a href='http://github.com/gferreira/amstelvar-avar2/blob/main/Tools/controller.py'>AmstelvarA2 Controller</a></li>
@@ -596,25 +668,30 @@
 
         <!-- THE END -->
 
-        <section data-markdown>
-          <textarea data-template>
-            ## The End (for now)
+        <section>
 
-            <p class='fragment'>This is a team effort.</p>
+          <section data-markdown>
+            <textarea data-template>
+              ## Ongoing work
 
-            <div class='fragment'>
-              <p>Thanks for your feedback!</p>
-              <p><a href='mailto:gustavo@hipertipo.com'>gustavo@hipertipo.com</a></p>
-            </div>
+              - AmstelvarA2 Roman & Italic
+              - xTools4 documentation and demos
 
-            <br/>
-            <p class='fragment'>
-              link to this presentation<br/>
-              <small><a href='http://gferreira.github.io/vartools-presentations/20260113_xtools.html'>http://gferreira.github.io/vartools-presentations/20260113_xtools.html</a></small>
-              <!-- <small><a href='http://github.com/gferreira/vartools-presentations'>http://github.com/gferreira/vartools-presentations</a></small> -->
-            </p>
+              <p class='fragment'><br/>This is a team effort.</p>
 
-          </textarea>
+              <div class='fragment'>
+                <p>Thank you for your feedback!</p>
+                <p><a href='mailto:gustavo@hipertipo.com'>gustavo@hipertipo.com</a></p>
+              </div>
+
+              <p class='fragment'>
+                <br/>
+                <a href='http://gferreira.github.io/vartools-presentations/20260721_xtools.html'>link to this presentation</a>
+              </p>
+
+            </textarea>
+          </section>
+
         </section>
 
       </div>
