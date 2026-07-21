@@ -147,17 +147,17 @@
                 </tr>
                 <tr>
                   <td><em>contours only</em></td>
-                  <td>equal to default<br/>contours only</td>
-                  <td>different from default<br/>contours only</td>
+                  <td>contours only<br/>equal to default</td>
+                  <td>contours only<br/>different from default</td>
                 </tr>
                 <tr>
                   <td><em>components only</em></td>
-                  <td>equal to default<br/>components only</td>
-                  <td>different from default<br/>components only</td>
+                  <td>components only<br/>equal to default</td>
+                  <td>components only<br/>different from default</td>
                 </tr>
               </table>
 
-              <p class="fragment">errors: mixed contours & components, nested components</p>
+              <p class="fragment">errors: mixed contours and components, nested components</p>
 
             </textarea>
           </section>
@@ -515,13 +515,16 @@
                   <li class='fragment'>a new set of sources with deltas for blended locations</li>
                   <li class='fragment'>a new set of hidden axes for tuning blended locations</li>
                   <li class='fragment'>a separate tool to temp-edit the tuning sources of a glyph</li>
-                  <li class='fragment'>[new] automatic calculation of tuning glyphs</li>
                 </ul>
               </p>
 
               <p class='fragment'>Blending with parametric sources and tuning sources<br/>allows us to match the reference font with precision.</p>
 
-              <p class='fragment'>[new] Automatic tuning adds absolute precision and allows for parametric and tuning sources to develop simultaneously.</p>
+              <ul class='fragment'>
+                <li>[new] automatic calculation of tuning glyphs</li>
+              </ul>
+
+              <p class='fragment'>Automatic tuning adds absolute precision and allows for parametric and tuning sources to develop simultaneously.</p>
 
             </textarea>
           </section>
@@ -535,7 +538,7 @@
               <p class='fragment'>three kinds of sources:</p>
               <ol>
                 <li class='fragment'>parametric sources<br/>changes to one parameter and one parameter only</li>
-                <li class='fragment'>reference sources<br/>hand-edited styles, not inserted in the designspace</li>
+                <li class='fragment'>reference sources<br/>hand-edited styles (not inserted in the designspace)</li>
                 <li class='fragment'>tuning sources<br/>deltas from parametric blends to reference styles</li>
               </ol>
 
